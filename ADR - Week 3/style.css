@@ -1,0 +1,175 @@
+body {
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+#mainText {
+  line-height: 16px;
+  font-size: 16px;
+  font-family: serif;
+
+
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+#nav {
+  display: flex;
+  align-items: center;
+}
+
+.locations {
+  list-style-type: none;
+  font-family: serif;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.locations:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
+.divider:hover {
+  cursor: default;
+}
+
+#room {
+  text-decoration: underline;
+
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+#storyGradient {
+    position: absolute;
+    top: 0px;
+    left: 150px;
+    height: 100%;
+    width: 250px;
+    background: -webkit-linear-gradient( rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100% );
+    background: linear-gradient( rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100% );
+}
+
+#nav ul {
+ padding: 0px;
+}
+
+.column {
+  overflow: hidden;
+  height: 100vh;
+}
+
+#leftWrapper {
+  width: 200px;
+  margin-right: 50px;
+}
+
+#rightWrapper {
+  width:300px;
+}
+
+.row {
+  display: flex;
+/*  justify-content: center; */
+  margin-left: 150px;
+  margin-top: 5px;
+
+}
+
+.button {
+  background: none;
+  border: 1px solid black;
+  font-family: serif;
+  font-size: 16px;
+  width: 102px;
+  height: 30px;
+  /*  padding: 5px 10px;  */
+  text-align: center;
+  display: inline-block;
+}
+
+.buttonName {
+  height: 30px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* removes the blue border after button click */
+.button:focus {
+  outline: 0;
+}
+
+.button:disabled {
+  text-decoration: none;
+  border: 1px solid gray;
+/*  background: #dddddd;  */
+}
+
+#fireCD {
+  position: absolute;
+  height: 30px;
+  background: #dddddd;
+  animation-duration: 10s;
+
+  z-index: 1;
+}
+
+#gatherWoodCD {
+  position: absolute;
+  height: 30px;
+  background: #dddddd;
+  animation-duration: 30s;
+
+  z-index: 1;
+}
+
+.cooldown {
+  width: 100px;
+
+  animation-name: buttonAnimation;
+  animation-timing-function: linear;
+}
+
+@-webkit-keyframes buttonAnimation {
+   0%   {width: 100;}
+   100% {width: 0;}
+}
+
+#gatherWood {
+  position: absolute;
+  z-index: 2;
+}
+
+#stokeFire {
+  position: absolute;
+  z-index: 2;
+}
+
+.feed {
+  animation: newFeed 0.5s ease-out;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes newFeed {
+   0%   {opacity: 0;}
+   100% {opacity: 1;}
+}
+
+/* Standard syntax */
+@keyframes newFeed {
+   0%   {opacity: 0;}
+   100% {opacity: 1;}
+ }
