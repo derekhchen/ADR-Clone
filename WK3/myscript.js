@@ -182,8 +182,11 @@ function setUpGame () {
 
   // can't have ul inside <p> element
   var nav = document.querySelectorAll('#nav ul');
-  var roomNode = addNode(nav[0], 'li', ['id', 'class'], ['room', 'locations']);
+  var roomNode = addNode(nav[0], 'li');
+  roomNode = addNode(roomNode, 'a', ['id', 'class'], ['room', 'locations']);
   roomNode.innerHTML = 'A Dark Room';
+  roomNode.classList.add('currentLocation');
+  roomNode.style.cursor = 'default';
 
   room.updateFeed();
   fire.updateFeed();
@@ -196,17 +199,20 @@ function addLightFireButton () {
   var actions = document.getElementById('actions');
   var control = addNode(actions, 'div', ['class', 'id'], ['controls', 'control1']);
   var stokeFireAttributes = ['class', 'id', 'onClick'];
-  //var stokeFireValues = ['button', 'stokeFire', 'stokeFire(fire, \'fireCD\')'];
   var stokeFireValues = ['button', 'stokeFire', 'lightFire()'];
+
   var stokeFireButton = addNode (control, 'button', stokeFireAttributes, stokeFireValues);
   stokeFireButton.innerHTML = 'light fire';
+  var buttonDesc = addNode(stokeFireButton, 'div', ['class', 'id'], ['buttonDesc', 'fireButtonDesc'])
+  buttonDesc.innerHTML = 'wood';
 
   // set up the button progress animation
   var fireCDElem = addNode(control, 'div', ['id'], ['fireCD']);
 
-  fireCDElem.addEventListener("webkitAnimationEnd", function () {stokeFireButton.disabled = false; fireCDElem.classList.toggle('cooldown');}, false);
-  fireCDElem.addEventListener("animationend", function () {stokeFireButton.disabled = false; fireCDElem.classList.toggle('cooldown');}, false);
-  fireCDElem.addEventListener("oanimationend", function () {stokeFireButton.disabled = false; fireCDElem.classList.toggle('cooldown');}, false);
+  fireCDElem.addEventListener("webkitAnimationEnd", function () {stokeFireButton.disabled = false; stokeFireButton.style.cursor = 'pointer'; fireCDElem.classList.toggle('cooldown');}, false);
+  fireCDElem.addEventListener("animationend", function () {stokeFireButton.disabled = false; stokeFireButton.style.cursor = 'pointer'; fireCDElem.classList.toggle('cooldown');}, false);
+  fireCDElem.addEventListener("oanimationend", function () {stokeFireButton.disabled = false; stokeFireButton.style.cursor = 'pointer'; fireCDElem.classList.toggle('cooldown');}, false);
+
 }
 
 function addGatherWoodButton () {
@@ -221,9 +227,9 @@ function addGatherWoodButton () {
   // set up the button progress animation
   var woodCDElem = addNode(control, 'div', ['id'], ['gatherWoodCD']);
 
-  woodCDElem.addEventListener("webkitAnimationEnd", function () {gatherWoodButton.disabled = false; woodCDElem.classList.toggle('cooldown');}, false);
-  woodCDElem.addEventListener("animationend", function () {gatherWoodButton.disabled = false; woodCDElem.classList.toggle('cooldown');}, false);
-  woodCDElem.addEventListener("oanimationend", function () {gatherWoodButton.disabled = false; woodCDElem.classList.toggle('cooldown');}, false);
+  woodCDElem.addEventListener("webkitAnimationEnd", function () {gatherWoodButton.disabled = false; gatherWoodButton.style.cursor = 'pointer'; woodCDElem.classList.toggle('cooldown');}, false);
+  woodCDElem.addEventListener("animationend", function () {gatherWoodButton.disabled = false; gatherWoodButton.style.cursor = 'pointer'; woodCDElem.classList.toggle('cooldown');}, false);
+  woodCDElem.addEventListener("oanimationend", function () {gatherWoodButton.disabled = false; gatherWoodButton.style.cursor = 'pointer'; woodCDElem.classList.toggle('cooldown');}, false);
 }
 
 function updateFeed (script, state = 0) {
@@ -293,10 +299,15 @@ function lightFire () {
 
   var roomNav = document.getElementById('room');
   roomNav.innerHTML = 'A Firelit Room';
-  roomNav.setAttribute('onClick', 'setControls(1)');
+  roomNav.setAttribute('onClick', '(function () {setLocation(\'room\'); setControls(1);})()');
 
   var fireElem = document.getElementById('stokeFire');
+  var buttonDesc = document.getElementById('fireButtonDesc');
+
   fireElem.innerHTML = 'stoke fire';
+  fireElem.addEventListener('mouseover', function() {buttonDesc.style.display = 'block';});
+  fireElem.addEventListener('mouseout', function() {buttonDesc.style.display = 'none';});
+
   fireElem.setAttribute('onClick', 'buttonPress(fire)');
   buttonPress(fire);
 
@@ -311,6 +322,7 @@ function buttonPress (buttonObj) {
   buttonObj.buttonAction();
   buttonCDElem.classList.toggle('cooldown');
   buttonElem.disabled = true;
+  buttonElem.style.cursor = 'default';
   //animateCooldown(buttonObj);
 }
 
@@ -334,14 +346,15 @@ function updateStory () {
 
   function displayLocations () {
     if (room.roomState > 0) {
-      var tabDivider = addNode(nav, 'li', ['class'], ['divider locations']);
+      var tabDivider = addNode(nav, 'li', ['class'], ['divider']);
       tabDivider.style.width = '1px';
       tabDivider.style.height = '22px';
       tabDivider.style.background = 'black';
 
-      var forestNode = addNode(nav, 'li', ['id', 'class'], ['forest', 'locations']);
+      var forestNode = addNode(nav, 'li');
+      forestNode = addNode(forestNode, 'a', ['id', 'class'], ['forest', 'locations']);
       forestNode.innerHTML = 'A Silent Forest';
-      forestNode.setAttribute('onClick', 'setControls(2)');
+      forestNode.setAttribute('onClick', '(function() {setLocation(\'forest\'); setControls(2);})()');
 
       clearInterval(id);
     }
@@ -358,6 +371,21 @@ function setControls (controlNum) {
     } else {
       // console.log('setting ' + controls[i] + ' to none');
       controls[i].style.visibility = 'hidden';
+    }
+  }
+}
+
+function setLocation (destination) {
+  var locations = document.getElementsByClassName('locations');
+  var i;
+
+  for (i = 0; i < locations.length; i++) {
+    if (locations[i].getAttribute('id') == destination) {
+      locations[i].classList.add('currentLocation');
+      locations[i].style.cursor = 'default';
+    } else {
+      locations[i].classList.remove('currentLocation');
+      locations[i].style.cursor = 'pointer';
     }
   }
 }

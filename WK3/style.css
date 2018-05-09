@@ -16,6 +16,14 @@ body {
   user-select: none;
 }
 
+li {
+  list-style: none;
+}
+
+a:focus {
+  text-decoration: underline;
+}
+
 #nav {
   display: flex;
   align-items: center;
@@ -34,12 +42,11 @@ body {
 }
 
 
-.divider:hover {
-  cursor: default;
+.divider {
+  margin-right: 10px
 }
 
 #room {
-  text-decoration: underline;
 
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -96,6 +103,20 @@ body {
   display: inline-block;
 }
 
+.buttonDesc {
+  display: none;
+  width: 100px;
+  height: 18px;
+  border: 1px solid black;
+  padding: 2px 5px;
+  box-shadow: -1px 3px 2px #666;
+  z-index: 999;
+  position: absolute;
+  margin-top: 7px;
+  margin-left: 2px;
+  text-align: left;
+}
+
 .buttonName {
   height: 30px;
   display: inline-block;
@@ -105,6 +126,10 @@ body {
 .button:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.button:active {
+  text-decoration: underline;
 }
 
 /* removes the blue border after button click */
@@ -156,6 +181,10 @@ body {
 #stokeFire {
   position: absolute;
   z-index: 2;
+}
+
+.currentLocation {
+  text-decoration: underline;
 }
 
 .feed {
